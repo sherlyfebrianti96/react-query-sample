@@ -49,10 +49,14 @@ export const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <Router>
-        <Container>
+        <Container sx={{ paddingBottom: '150px' }}>
           <Routes>
             {routes.map(route => (
-              <Route path={route.path} element={route.element} />
+              <Route
+                key={route.name}
+                path={route.path}
+                element={route.element}
+              />
             ))}
           </Routes>
         </Container>
@@ -66,6 +70,7 @@ export const App = () => {
           >
             {routes.map(route => (
               <BottomNavigationAction
+                key={route.name}
                 label={route.name}
                 icon={route.icon}
                 value={route.path}

@@ -28,7 +28,7 @@ export const UserTable = (props: UserTableProps) => {
         </TableHead>
         <TableBody>
           {props.data.map(user => (
-            <TableRow>
+            <TableRow key={`user-${user.id}`}>
               <TableCell>{user.email}</TableCell>
               <TableCell>{user.first_name}</TableCell>
               <TableCell>{user.last_name}</TableCell>
