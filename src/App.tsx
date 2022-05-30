@@ -1,32 +1,80 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { NormalUserPage } from './page/NormalUser';
 import './App.css';
+import {
+  BottomNavigation,
+  BottomNavigationAction,
+  Container,
+} from '@mui/material';
+import { useState } from 'react';
+import { AutoFixHigh, AutoFixOff, Home } from '@mui/icons-material';
+import { HomePage } from './page/Home';
+import { ReactQueryUserPage } from './page/ReactQueryUser';
 
 export const App = () => {
   // Create a client
   const queryClient = new QueryClient();
 
+  const [activePage, setActivePage] = useState<string>();
+
+  const routes = [
+    {
+      name: 'Home',
+      path: '/',
+      icon: <Home />,
+      element: <HomePage />,
+    },
+    {
+      name: 'Normal',
+      path: '/normal',
+      icon: <AutoFixOff />,
+      element: <NormalUserPage />,
+    },
+    {
+      name: 'React Query',
+      path: '/react-query',
+      icon: <AutoFixHigh />,
+      element: <ReactQueryUserPage />,
+    },
+  ];
+
+  const onPageNavigationChanged = (
+    _: React.SyntheticEvent,
+    newPage: string
+  ) => {
+    setActivePage(newPage);
+  };
+
   return (
     <QueryClientProvider client={queryClient}>
       <Router>
-        <h1>Welcome!</h1>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/about">Normal Fetching</Link>
-            </li>
-            <li>
-              <Link to="/users">React Query</Link>
-            </li>
-          </ul>
-        </nav>
-        <Routes>
-          <Route path="/normal">Normal</Route>
-          <Route path="/react-query">React Query</Route>
-        </Routes>
+        <Container>
+          <Routes>
+            {routes.map(route => (
+              <Route path={route.path} element={route.element} />
+            ))}
+          </Routes>
+        </Container>
+
+        <div className="app-navigation">
+          <BottomNavigation
+            showLabels
+            sx={{ height: '100px' }}
+            value={activePage}
+            onChange={onPageNavigationChanged}
+          >
+            {routes.map(route => (
+              <BottomNavigationAction
+                label={route.name}
+                icon={route.icon}
+                value={route.path}
+                component={Link}
+                to={route.path}
+              />
+            ))}
+          </BottomNavigation>
+        </div>
       </Router>
     </QueryClientProvider>
   );
