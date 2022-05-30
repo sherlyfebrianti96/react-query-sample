@@ -1,7 +1,7 @@
-import './App.css';
-
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import './App.css';
+
 export const App = () => {
   // Create a client
   const queryClient = new QueryClient();
