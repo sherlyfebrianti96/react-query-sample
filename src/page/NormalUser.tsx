@@ -1,28 +1,17 @@
+import { CircularProgress } from '@mui/material';
 import { Title } from '../component/Title';
 import { UserTable } from '../component/UserTable';
+import { useNormalUser } from '../hooks/normal/useNormalUser';
 
 export const NormalUserPage = () => {
-  const userTableData = [
-    {
-      id: 7,
-      email: 'michael.lawson@reqres.in',
-      first_name: 'Michael',
-      last_name: 'Lawson',
-      avatar: 'https://reqres.in/img/faces/7-image.jpg',
-    },
-    {
-      id: 8,
-      email: 'lindsay.ferguson@reqres.in',
-      first_name: 'Lindsay',
-      last_name: 'Ferguson',
-      avatar: 'https://reqres.in/img/faces/8-image.jpg',
-    },
-  ];
+  const userTableData = useNormalUser();
 
   return (
     <div>
       <Title text="Normal API Fetch" />
-      <UserTable data={userTableData} />
+      <UserTable data={userTableData.users?.data || []} />
+      {userTableData.loading && <CircularProgress />}
     </div>
   );
 };
+
